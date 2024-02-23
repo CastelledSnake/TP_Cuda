@@ -3,6 +3,14 @@ from statistics import mean, stdev
 
 
 def apply_operation(reader: csv.reader, output: str, operation: callable, repetitions: int):
+    """
+    Apply an operation to data in an input csv file and write the results to another file.
+    :param reader: the reader on an input csv file.
+    :param output: the name of the output file.
+    :param operation: the operation to apply to the input.
+    :param repetitions: the number of rows to read before applying the operation.
+    :return: None
+    """
     with open(output, 'w', newline='') as output_file:
         writer = csv.writer(output_file, delimiter=';')
         writer.writerow(['Max_init', 'Min_init', 'Avg_sum'])
@@ -19,6 +27,14 @@ def apply_operation(reader: csv.reader, output: str, operation: callable, repeti
 
 
 def apply_all_operations(l_input: str, outputs: list[str], operations: list[callable], repetitions: int):
+    """
+    Apply a list of operations to a same input file, and exports the results into some output files.
+    :param l_input: the name of the input file.
+    :param outputs: the list of the names of the output files.
+    :param operations: the list of operations to apply to the input.
+    :param repetitions: the number of rows to read before applying the operation.
+    :return: None
+    """
     if len(outputs) != len(operations):
         raise ValueError("The number of outputs and operations must be the same")
     for op_index in range(len(operations)):

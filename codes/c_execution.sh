@@ -3,6 +3,7 @@
 output_file="../measures/c_results/results.txt"
 
 # Clear the existing file or create a new one.
+# shellcheck disable=SC2188
 > "$output_file"
 
 for power in {0..20}

@@ -12,6 +12,7 @@
 // With time profiling : $sudo /usr/local/cuda/bin/nvprof <program_name and arguments>
 
 __global__ void random_array(int size, int array[]) {
+    /* Generates a random array of integers. into the device memory. */
 	int tid = blockIdx.x * blockDim.x + threadIdx.x;
 
 	curandState state;
@@ -24,6 +25,7 @@ __global__ void random_array(int size, int array[]) {
 
 
 __global__ void sum_arrays(int size, int *a1, int *a2, int *result) {
+    /* Sums two arrays of integers into the device. */
 	for (int i=0; i<size; ++i) {
 		result[i] = a1[i] + a2[i];
 	}
@@ -58,10 +60,12 @@ int main(int argc, char *argv[]) {
 	}
 	
 	srand(time(NULL));
-
+    // Get capability information about the device.
 	cudaDeviceProp deviceProp;
 	cudaGetDeviceProperties(&deviceProp, 0);
 	max_blocks = deviceProp.maxThreadsPerMultiProcessor / deviceProp.maxThreadsPerBlock;
+
+	// Check if the number of blocks and threads per block fit with the system's capacities.
 	if (nb_blocks > max_blocks) {
 		fprintf(stderr, "The device can handle %d blocks at max ; %d given\n", max_blocks, nb_blocks);
 		return EXIT_FAILURE;
